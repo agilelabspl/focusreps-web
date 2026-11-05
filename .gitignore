@@ -1,0 +1,10 @@
+.DS_Store
+Thumbs.db
+
+# Hidden sections (not shipped yet)
+blog/
+
+# Unused assets
+appstore-badge.png
+preview-desktop.png
+preview-mobile.png
