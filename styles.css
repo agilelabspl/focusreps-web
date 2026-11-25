@@ -399,8 +399,37 @@ h3 { font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacin
   font-size: clamp(17px, 1.6vw, 20px); line-height: 1.55; color: var(--ink-2);
   text-align: justify; hyphens: auto;
 }
-.get-app .appstore-badge { display: inline-block; }
-.get-app .appstore-badge img { height: 60px; }
+.get-app .appstore-badge { display: table; margin: 0 auto; }
+
+/* ========== The science (serif, distinct from the rest) ========== */
+.science {
+  background: var(--cream);
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  padding: 100px 24px;
+  font-family: ui-serif, "New York", Georgia, "Times New Roman", serif;
+}
+.science h2 { font-family: inherit; font-weight: 700; letter-spacing: -0.01em; }
+.science-lead {
+  margin: 16px 0 0; max-width: 52ch;
+  font-size: clamp(17px, 1.6vw, 19px); line-height: 1.55; color: var(--ink-2);
+}
+.science-grid {
+  max-width: var(--max); margin: 48px auto 0;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+}
+.science-card {
+  background: var(--cream-2); border: 1px solid var(--line);
+  padding: 28px 24px; display: flex; flex-direction: column; gap: 10px;
+}
+.science-num {
+  font-size: clamp(44px, 5vw, 60px); line-height: 1; font-weight: 700;
+  color: var(--orange-dark);
+}
+.science-card p { margin: 0; font-size: 18px; line-height: 1.4; color: var(--ink); }
+.science-card cite { margin-top: auto; font-size: 14px; color: var(--ink-2); }
+@media (max-width: 900px) { .science-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .science-grid { grid-template-columns: 1fr; } }
+.get-app .appstore-badge img { height: 60px; margin: 0 auto; }
 
 /* ========== See it in action ========== */
 .showcase {
@@ -780,6 +809,8 @@ details p {
 }
 .list-article:first-child { border-top: 2px solid var(--ink); }
 .list-article:last-child { border-bottom: 2px solid var(--ink); }
+.list-article[hidden] { display: none; }
+.list-article:has(+ .list-article[hidden]) { border-bottom: 2px solid var(--ink); }
 .list-article .idx {
   font-family: var(--mono); font-size: 13px; font-weight: 700;
   color: var(--orange-dark); letter-spacing: 0.1em;
@@ -1152,8 +1183,8 @@ details p {
 @media (max-width: 560px) {
   main > section { padding: 72px 20px; }
   .hero { padding: 32px 20px 48px; }
-  .steps { gap: 12px; }
-  .steps li { padding: 18px 16px; }
+  .steps { gap: 12px; grid-template-columns: 1fr; }
+  .steps li { padding: 18px 16px; min-width: 0; }
   .step-num { font-size: 22px; margin-bottom: 12px; }
   .steps h3 { font-size: 16px; }
   .steps p { font-size: 13px; line-height: 1.4; margin-bottom: 12px; }
