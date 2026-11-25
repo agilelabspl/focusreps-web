@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<meta name="theme-color" content="#f5f3ef" />
+<meta name="theme-color" content="#f8f7f3" />
 <meta name="color-scheme" content="light" />
 
 <title>FocusReps · Focus. Then push-ups. iPhone camera counts your reps.</title>
@@ -29,13 +29,15 @@
 <link rel="icon" type="image/png" href="app-icon.png" />
 <link rel="apple-touch-icon" href="app-icon.png" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="demo/demo.css" />
 
 <script>
+// Analytics load only after cookie consent (see #cookie-banner).
+function frLoadAnalytics() {
+if (window.__frAnalytics) return;
+window.__frAnalytics = true;
 !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
 posthog.init('phc_x9aujhwB7UGrY7GUKtDUT2NqDMefkAZk86peGeGWo5u2', {
   api_host: 'https://eu.posthog.com',
@@ -45,6 +47,8 @@ posthog.init('phc_x9aujhwB7UGrY7GUKtDUT2NqDMefkAZk86peGeGWo5u2', {
 });
 posthog.register({ source: 'web.focusreps' });
 posthog.capture('web.focusreps.pageview');
+}
+try { if (localStorage.getItem('fr.consent') === 'yes') frLoadAnalytics(); } catch (e) {}
 </script>
 
 <script type="application/ld+json">
@@ -87,7 +91,7 @@ posthog.capture('web.focusreps.pageview');
       "name": "Does the camera actually count or is this fake?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Real. On-device pose detection watches your form and ticks a rep only when your elbows go below ninety degrees and come back up. Shallow reps do not count. Nervous tics do not count."
+        "text": "Real. On-device pose detection tracks your shoulders from a steady plank. A rep counts only when they drop well below your plank height and come back up. Shallow reps do not count. Nervous tics do not count."
       }
     },
     {
@@ -138,7 +142,7 @@ posthog.capture('web.focusreps.pageview');
 
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="site-header" hidden>
+<header class="site-header">
   <nav class="nav" aria-label="Primary">
     <a class="brand" href="index.html" aria-label="FocusReps home">
       <img class="brand-icon" src="app-icon.png" alt="" width="36" height="36" />
@@ -147,34 +151,27 @@ posthog.capture('web.focusreps.pageview');
     <ul class="nav-list">
       <li><a href="#how">How it works</a></li>
       <li><a href="#tools">Free Tools</a></li>
+      <li><a href="blog/index.html">Blog</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
-    <a class="nav-cta" href="#waitlist">Join waitlist</a>
+    <a class="nav-cta" href="https://apps.apple.com/us/app/focus-push-up-set-focusreps/id6827547307?ppid=c766ab44-a775-4fb3-ad46-c6d85a74fd3a">Get the App</a>
   </nav>
 </header>
 
 <main id="main">
 
-  <section class="hero" aria-labelledby="hero-title" style="border-bottom:none;min-height:100vh;display:flex;align-items:center;">
+  <section class="hero" aria-labelledby="hero-title" style="border-bottom:none;">
     <div class="hero-grid">
       <div class="hero-copy">
-        <a class="brand" href="index.html" aria-label="FocusReps home" style="margin-bottom:24px;">
-          <img class="brand-icon" src="app-icon.png" alt="" width="36" height="36" />
-          <span class="brand-name">FocusReps</span>
-        </a>
         <h1 id="hero-title" class="hero-title">Focus.<br>Then <em>push-ups.</em></h1>
         <p class="hero-sub">
-          Focus on your work and make micro exercise in the break. Your camera will support you.
+          A focus timer that makes you move. Your iPhone camera counts push-ups in every break and adds them to your stats and leaderboard.
         </p>
-        <div class="cta-row" id="waitlist">
-          <form class="waitlist" data-waitlist novalidate>
-            <div class="wl-field">
-              <label class="visually-hidden" for="wl-email-hero">Email</label>
-              <input id="wl-email-hero" name="email" type="email" placeholder="your@email.com" autocomplete="email" required />
-            </div>
-            <button type="submit">Join waitlist</button>
-            <p class="wl-status" role="status" aria-live="polite"></p>
-          </form>
+        <div class="cta-row" id="get-app">
+          <button type="button" class="btn btn-ghost btn-demo" data-demo-open="hero">Try it now</button>
+          <a class="appstore-badge" href="https://apps.apple.com/us/app/focus-push-up-set-focusreps/id6827547307?ppid=c766ab44-a775-4fb3-ad46-c6d85a74fd3a" aria-label="Download FocusReps on the App Store">
+            <img src="appstore-badge.webp" alt="Download on the App Store" width="2000" height="593" />
+          </a>
         </div>
       </div>
 
@@ -185,6 +182,51 @@ posthog.capture('web.focusreps.pageview');
           </video>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="showcase" id="showcase" aria-labelledby="showcase-title">
+    <header class="section-head">
+      <p class="eyebrow">Inside the app</p>
+      <h2 id="showcase-title">Focus. Move. <em>See it add up.</em></h2>
+    </header>
+    <div class="showcase-grid">
+      <figure class="showcase-item">
+        <div class="showcase-phone">
+          <img src="screens/focus.webp" alt="Focus timer showing 24:56 remaining and the next break with 15 push-ups" width="560" height="1212" loading="lazy" />
+        </div>
+        <figcaption class="showcase-caption">
+          <strong>Lock in</strong>
+          A focus timer with your next break queued.
+        </figcaption>
+      </figure>
+      <figure class="showcase-item">
+        <div class="showcase-phone">
+          <img src="screens/pushups.webp" alt="Active break: the camera tracks a push-up and counts 11 of 15 reps" width="560" height="1212" loading="lazy" />
+        </div>
+        <figcaption class="showcase-caption">
+          <strong>Drop and count</strong>
+          The camera counts every real rep.
+        </figcaption>
+      </figure>
+      <figure class="showcase-item">
+        <div class="showcase-phone">
+          <img src="screens/rest.webp" alt="Rest screen: 15 of 15 push-ups done, break ends in 3:09" width="560" height="1212" loading="lazy" />
+        </div>
+        <figcaption class="showcase-caption">
+          <strong>Earn your rest</strong>
+          Reps done. Breathe, stretch, back to work.
+        </figcaption>
+      </figure>
+      <figure class="showcase-item">
+        <div class="showcase-phone">
+          <img src="screens/stats.webp" alt="Stats screen: 245 push-ups this week and 4h31 of focus time" width="560" height="1212" loading="lazy" />
+        </div>
+        <figcaption class="showcase-caption">
+          <strong>See your week</strong>
+          Push-ups and focus time, day by day.
+        </figcaption>
+      </figure>
     </div>
   </section>
 
@@ -236,14 +278,14 @@ posthog.capture('web.focusreps.pageview');
     </div>
   </section>
 
-  <section class="how" id="how" aria-labelledby="how-title" hidden>
+  <section class="how" id="how" aria-labelledby="how-title">
     <header class="section-head">
       <p class="eyebrow">How it works</p>
       <h2 id="how-title">Four steps. Then you work.</h2>
     </header>
     <ol class="steps">
       <li>
-        <span class="step-num">01 /</span>
+        <span class="step-num">Step 1</span>
         <div>
           <h3>Pick a session.</h3>
           <p>Default is 25 and 5 with 10 push-ups. Change it or just hit start.</p>
@@ -251,7 +293,7 @@ posthog.capture('web.focusreps.pageview');
         <span class="step-tag">25 min · push-ups</span>
       </li>
       <li>
-        <span class="step-num">02 /</span>
+        <span class="step-num">Step 2</span>
         <div>
           <h3>Phone face down.</h3>
           <p>Timer runs in the background. No notifications. No streak pressure.</p>
@@ -259,7 +301,7 @@ posthog.capture('web.focusreps.pageview');
         <span class="step-tag">camera off, you off</span>
       </li>
       <li>
-        <span class="step-num">03 /</span>
+        <span class="step-num">Step 3</span>
         <div>
           <h3>Timer rings. Drop and count.</h3>
           <p>Prop the phone. Step in frame. The camera counts every rep that goes deep enough.</p>
@@ -267,7 +309,7 @@ posthog.capture('web.focusreps.pageview');
         <span class="step-tag">10 reps · verified</span>
       </li>
       <li>
-        <span class="step-num">04 /</span>
+        <span class="step-num">Step 4</span>
         <div>
           <h3>Back to focus.</h3>
           <p>When you have your push-ups done, rest and relax during the break so you get strength for the next focus session.</p>
@@ -275,60 +317,6 @@ posthog.capture('web.focusreps.pageview');
         <span class="step-tag">next session queued</span>
       </li>
     </ol>
-  </section>
-
-  <section class="showcase" id="showcase" aria-labelledby="showcase-title" hidden>
-    <header class="section-head">
-      <p class="eyebrow">What you get</p>
-      <h2 id="showcase-title">Focus. Move. <em>See it add up.</em></h2>
-    </header>
-    <div class="showcase-grid">
-      <figure class="showcase-item">
-        <div class="showcase-phone">
-          <img src="app-screen-1.png" alt="Home screen with session setup, presets and start button" />
-        </div>
-        <figcaption class="showcase-caption">
-          <strong>01 · Set your pace</strong>
-          25 or 50 minutes. 10 push-ups.
-        </figcaption>
-      </figure>
-      <figure class="showcase-item">
-        <div class="showcase-phone">
-          <img src="app-screen-2.png" alt="Focus timer counting down with Lock In label" />
-        </div>
-        <figcaption class="showcase-caption">
-          <strong>02 · Get deep work</strong>
-          Phone face down. Timer in charge.
-        </figcaption>
-      </figure>
-      <figure class="showcase-item">
-        <div class="showcase-phone">
-          <img src="app-screen-5.png" alt="Active break with camera pose detection counting push-ups" />
-        </div>
-        <figcaption class="showcase-caption">
-          <strong>03 · Move, don't scroll</strong>
-          Camera counts every real rep.
-        </figcaption>
-      </figure>
-      <figure class="showcase-item">
-        <div class="showcase-phone">
-          <img src="app-screen-3.png" alt="Stats screen with weekly push-up count and focus time" />
-        </div>
-        <figcaption class="showcase-caption">
-          <strong>04 · See your week</strong>
-          Reps added up. Focus time logged.
-        </figcaption>
-      </figure>
-      <figure class="showcase-item">
-        <div class="showcase-phone">
-          <img src="app-screen-4.png" alt="Global ranking leaderboard via Game Center" />
-        </div>
-        <figcaption class="showcase-caption">
-          <strong>05 · Climb the rank</strong>
-          Compete globally via Game Center.
-        </figcaption>
-      </figure>
-    </div>
   </section>
 
   <section class="features" id="features" aria-labelledby="features-title" hidden>
@@ -370,7 +358,7 @@ posthog.capture('web.focusreps.pageview');
     </div>
   </section>
 
-  <section class="tools-teaser" id="tools" aria-labelledby="tools-teaser-title" hidden>
+  <section class="tools-teaser" id="tools" aria-labelledby="tools-teaser-title">
     <header class="section-head">
       <p class="eyebrow">Free tools</p>
       <h2 id="tools-teaser-title">Free materials to help your focus and your reps.</h2>
@@ -387,6 +375,16 @@ posthog.capture('web.focusreps.pageview');
         <h3>30 day pushup challenge grid</h3>
         <p>One page. Thirty days. Start at 10 reps, finish at 50. Break the daily count into your work breaks. Print one, print ten. Free PDF, no email.</p>
         <span class="tool-cta">Download →</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="get-app" id="get-the-app" aria-labelledby="get-app-title">
+    <div class="get-app-inner">
+      <h2 id="get-app-title">Download FocusReps for iPhone</h2>
+      <p>Everything from the demo, plus the parts that need a real app: a focus timer that keeps running in the background, Deep Focus that blocks distracting apps while you work, a Home Screen widget with your weekly push-ups, your stats over time and the Game Center leaderboard.</p>
+      <a class="appstore-badge" href="https://apps.apple.com/us/app/focus-push-up-set-focusreps/id6827547307?ppid=c766ab44-a775-4fb3-ad46-c6d85a74fd3a" aria-label="Download FocusReps on the App Store">
+        <img src="appstore-badge.webp" alt="Download on the App Store" width="2000" height="593" />
       </a>
     </div>
   </section>
@@ -412,7 +410,7 @@ posthog.capture('web.focusreps.pageview');
     </div>
   </section>
 
-  <section class="faq" id="faq" aria-labelledby="faq-title" hidden>
+  <section class="faq" id="faq" aria-labelledby="faq-title">
     <header class="section-head">
       <p class="eyebrow">FAQ</p>
       <h2 id="faq-title">What people actually ask.</h2>
@@ -420,7 +418,7 @@ posthog.capture('web.focusreps.pageview');
     <div class="faq-list">
       <details>
         <summary>Does the camera actually count or is this fake?</summary>
-        <p>Real. On-device pose detection watches your form and ticks a rep only when your elbows go below ninety degrees and come back up. Shallow reps do not count. Nervous tics do not count.</p>
+        <p>Real. On-device pose detection tracks your shoulders from a steady plank. A rep counts only when they drop well below your plank height and come back up. Shallow reps do not count. Nervous tics do not count.</p>
       </details>
       <details>
         <summary>Where does the video go?</summary>
@@ -445,45 +443,90 @@ posthog.capture('web.focusreps.pageview');
     </div>
   </section>
 
-  <section class="final-cta" id="download" aria-labelledby="dl-title" hidden>
-    <h2 id="dl-title">Stop sitting. Start <em>locking in.</em></h2>
-    <p>Join the waitlist. First 50 testers get lifetime Pro.</p>
+  <section class="final-cta" id="download" aria-labelledby="dl-title">
+    <h2 id="dl-title">Ready when <em>you are.</em></h2>
+    <p>Try it free in your browser right now. Or put FocusReps on your iPhone and make every break count.</p>
     <div class="final-cta-row">
-      <form class="waitlist" data-waitlist novalidate>
-        <div class="wl-field">
-          <label class="visually-hidden" for="wl-name-final">Name</label>
-          <input id="wl-name-final" name="name" type="text" placeholder="Your name" autocomplete="given-name" required />
-        </div>
-        <div class="wl-field">
-          <label class="visually-hidden" for="wl-email-final">Email</label>
-          <input id="wl-email-final" name="email" type="email" placeholder="your@email.com" autocomplete="email" required />
-        </div>
-        <button type="submit">Join waitlist</button>
-        <p class="wl-status" role="status" aria-live="polite"></p>
-      </form>
+      <button type="button" class="btn btn-demo" data-demo-open="final">Try it free ▶</button>
+      <a class="appstore-badge" href="https://apps.apple.com/us/app/focus-push-up-set-focusreps/id6827547307?ppid=c766ab44-a775-4fb3-ad46-c6d85a74fd3a" aria-label="Download FocusReps on the App Store">
+        <img src="appstore-badge.webp" alt="Download on the App Store" width="2000" height="593" />
+      </a>
     </div>
   </section>
 
 </main>
 
-<footer class="site-footer" hidden>
-  <div class="footer-inner">
-    <a class="brand" href="index.html">
+<div class="featured-badges">
+  <a href="https://www.producthunt.com/products/focusreps?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-focusreps" target="_blank" rel="noopener noreferrer">
+    <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1306511&amp;theme=light&amp;t=1793960230172" alt="FocusReps - Deep work and micro exercise in one flow | Product Hunt" width="194" height="42" style="display:inline-block;vertical-align:middle;margin:0 8px" />
+  </a>
+  <a href="https://daniellaunches.com" target="_blank" rel="noopener">
+    <img src="https://daniellaunches.com/badge-light.svg" alt="Featured on DanielLaunches" width="165" height="36" style="display:inline-block;vertical-align:middle;margin:0 8px" />
+  </a>
+  <a href="https://easylaunch.dev/productivity/focusreps" target="_blank" rel="noopener">
+    <img src="https://easylaunch.dev/badge/easylaunch-badge-light.svg" alt="Featured on EasyLaunch" width="141" height="42" style="display:inline-block;vertical-align:middle;margin:0 8px" />
+  </a>
+  <a href="https://www.listbulb.com/tools/focusreps" target="_blank" rel="noopener">
+    <img src="https://www.listbulb.com/featured-on-listbulb-light.svg" alt="Featured on ListBulb" height="42" style="display:inline-block;vertical-align:middle;margin:0 8px;width:auto" />
+  </a>
+  <a href="https://easydofollow.dev/mobile/focusreps" target="_blank" rel="noopener">
+    <img src="https://easydofollow.dev/badge/easydofollow-badge-light.svg" alt="Featured on EasyDoFollow" width="141" height="42" style="display:inline-block;vertical-align:middle;margin:0 8px" />
+  </a>
+  <a href="https://twelve.tools" target="_blank" rel="noopener">
+    <img src="https://twelve.tools/badge0-white.svg" alt="Featured on Twelve Tools" width="148" height="40" style="display:inline-block;vertical-align:middle;margin:0 8px" />
+  </a>
+  <a href="https://productsfarm.com/product/focusreps" target="_blank" rel="noopener">
+    <img src="https://productsfarm.com/api/badge/focusreps" alt="FocusReps on ProductsFarm" width="192" height="42" style="display:inline-block;vertical-align:middle;margin:0 8px" />
+  </a>
+  <a href="https://buildhop.io/discover/focusreps-07c6b658-d67f-4656-ad41-2c63077f28c8" target="_blank" rel="noopener noreferrer">
+    <img src="https://buildhop.io/api/badges/launch/07c6b658-d67f-4656-ad41-2c63077f28c8?theme=light" alt="Trending on BuildHop: FocusReps" width="236" height="52" style="display:inline-block;vertical-align:middle;margin:0 8px" />
+  </a>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-cols">
+    <nav aria-labelledby="ft-try">
+      <h3 id="ft-try">Try it free</h3>
+      <ul>
+        <li><a href="index.html?demo">Push-up counter in your browser</a></li>
+        <li><a href="index.html#how">How it works</a></li>
+        <li><a href="index.html#showcase">Inside the app</a></li>
+        <li><a href="index.html#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="ft-tools">
+      <h3 id="ft-tools">Free tools</h3>
+      <ul>
+        <li><a href="tools/pomodoro-adhd-planner/index.html">Pomodoro© ADHD planner</a></li>
+        <li><a href="tools/30-day-pushup-challenge/index.html">30 day push-up challenge</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="ft-blog">
+      <h3 id="ft-blog">Guides</h3>
+      <ul>
+        <li><a href="blog/pomodoro-for-adhd/index.html">Pomodoro for ADHD</a></li>
+        <li><a href="blog/index.html">All posts →</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="ft-app">
+      <h3 id="ft-app">FocusReps</h3>
+      <ul>
+        <li><a href="https://apps.apple.com/us/app/focus-push-up-set-focusreps/id6827547307?ppid=c766ab44-a775-4fb3-ad46-c6d85a74fd3a">Get the iPhone app</a></li>
+        <li><a href="https://app.notion.com/p/Privacy-Policy-3d0d6cc99d12807d9302e09c87b76a06" rel="noopener">Privacy Policy</a></li>
+        <li><a href="https://app.notion.com/p/Terms-of-Use-3d0d6cc99d12804f85a2ca20c78243a8" rel="noopener">Terms of Use</a></li>
+        <li><a href="mailto:pomoc@agilelabs.pl">Contact</a></li>
+        <li><button type="button" class="footer-linkbtn" data-cookie-settings>Cookie settings</button></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <a class="brand" href="index.html" aria-label="FocusReps home">
       <img class="brand-icon" src="app-icon.png" alt="" width="28" height="28" style="width:28px;height:28px" />
       <span class="brand-name">FocusReps</span>
     </a>
-    <nav aria-label="Footer">
-      <ul>
-        <li><a href="#how">How</a></li>
-        <li><a href="#tools">Free Tools</a></li>
-          <li><a href="#faq">FAQ</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
-        <li><a href="terms.html">Terms</a></li>
-        <li><a href="mailto:hello@focusreps.app">Contact</a></li>
-      </ul>
-    </nav>
-    <p class="copy">© 2026 FocusReps</p>
+    <p class="copy">© 2026 FocusReps. All rights reserved.</p>
   </div>
+  <p class="footer-legal">Apple, the Apple logo, iPhone, App Store and Game Center are trademarks of Apple Inc., registered in the U.S. and other countries. Pomodoro® and Pomodoro Technique® are registered trademarks of Francesco Cirillo. FocusReps is not affiliated with Apple Inc. or Francesco Cirillo.</p>
 </footer>
 
 <script>
@@ -532,5 +575,35 @@ posthog.capture('web.focusreps.pageview');
 })();
 </script>
 
+
+
+<div class="cookie-banner" id="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent" hidden>
+  <p>We would like to use analytics cookies (PostHog, hosted in the EU) to see how visitors use this page. Nothing is tracked unless you agree. <a href="https://app.notion.com/p/Privacy-Policy-3d0d6cc99d12807d9302e09c87b76a06" rel="noopener">Privacy Policy</a></p>
+  <div class="cookie-actions">
+    <button type="button" class="btn btn-ghost" data-consent="no">Decline</button>
+    <button type="button" class="btn" data-consent="yes">Accept</button>
+  </div>
+</div>
+<script>
+(function () {
+  var banner = document.getElementById('cookie-banner');
+  function get() { try { return localStorage.getItem('fr.consent'); } catch (e) { return null; } }
+  function set(v) { try { localStorage.setItem('fr.consent', v); } catch (e) {} }
+  if (!get()) banner.hidden = false;
+  banner.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-consent]');
+    if (!b) return;
+    var yes = b.getAttribute('data-consent') === 'yes';
+    set(yes ? 'yes' : 'no');
+    banner.hidden = true;
+    if (yes) frLoadAnalytics();
+    else if (window.posthog && window.posthog.opt_out_capturing) window.posthog.opt_out_capturing();
+  });
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-cookie-settings]')) banner.hidden = false;
+  });
+})();
+</script>
+<script type="module" src="demo/demo.js"></script>
 </body>
 </html>
