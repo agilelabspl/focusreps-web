@@ -6,7 +6,8 @@
 const APPSTORE_URL = "https://apps.apple.com/us/app/focus-push-up-set-focusreps/id6827547307?ppid=c766ab44-a775-4fb3-ad46-c6d85a74fd3a";
 const MP_VERSION = "0.10.14";
 const MP_BASE = `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}`;
-const MODEL_URL = "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
+// "full" model: noticeably steadier than "lite" while still real-time on laptops ("heavy" drops too many frames).
+const MODEL_URL = "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/1/pose_landmarker_full.task";
 const BREAK_SECONDS = 5 * 60;
 const BASE = new URL(".", import.meta.url).href; // .../demo/
 
@@ -42,6 +43,8 @@ class PushupCounter {
     this.baselineY = 0;
     this.baselineSamples = [];
     this.plankStableFrames = 0;
+    this.downFrames = 0;
+    this.lastRepAt = 0;
   }
   update(pose) {
     const shoulderY = meanY(pose.leftShoulder, pose.rightShoulder);
@@ -68,14 +71,25 @@ class PushupCounter {
           this.state = "up";
         }
         break;
+      // Web-only guards on top of the app logic: webcam landmarks are noisier than Vision on iPhone,
+      // so "down" must hold for a few frames and reps cannot come faster than MIN_REP_MS.
       case "up":
-        if (shoulderY < this.baselineY - this.downDelta) this.state = "down";
+        if (shoulderY < this.baselineY - this.downDelta) {
+          this.downFrames += 1;
+          if (this.downFrames >= DOWN_HOLD_FRAMES) { this.state = "down"; this.downFrames = 0; }
+        } else {
+          this.downFrames = 0;
+        }
         break;
       case "down":
         if (shoulderY > this.baselineY - this.upDelta) {
           this.state = "up";
-          this.repCount += 1;
-          counted = true;
+          const now = performance.now();
+          if (now - this.lastRepAt >= MIN_REP_MS) {
+            this.repCount += 1;
+            this.lastRepAt = now;
+            counted = true;
+          }
         }
         break;
     }
@@ -102,17 +116,30 @@ const LM = {
   leftWrist: 15, rightWrist: 16, leftHip: 23, rightHip: 24,
   leftKnee: 25, rightKnee: 26, leftAnkle: 27, rightAnkle: 28
 };
-const MIN_VISIBILITY = 0.3;
+const MIN_VISIBILITY = 0.6;
+const SMOOTHING = 0.45;      // EMA weight of the newest frame (lower = smoother)
+const DOWN_HOLD_FRAMES = 3;  // frames the shoulders must stay low before "down" counts
+const MIN_REP_MS = 450;      // nobody does a real push-up faster than this
+let smoothed = {};
+function resetSmoothing() { smoothed = {}; }
 function toPose(landmarks) {
   const pose = {};
-  if (!landmarks) return pose;
+  if (!landmarks) { resetSmoothing(); return pose; }
+  const seen = {};
   for (const [name, i] of Object.entries(LM)) {
     const p = landmarks[i];
     if (!p) continue;
     if ((p.visibility ?? 1) < MIN_VISIBILITY) continue;
     if (p.x < 0 || p.x > 1 || p.y < 0 || p.y > 1) continue;
-    pose[name] = { x: p.x, y: 1 - p.y };
+    const raw = { x: p.x, y: 1 - p.y };
+    const prev = smoothed[name];
+    const s = prev
+      ? { x: prev.x + SMOOTHING * (raw.x - prev.x), y: prev.y + SMOOTHING * (raw.y - prev.y) }
+      : raw;
+    seen[name] = s;
+    pose[name] = s;
   }
+  smoothed = seen;
   if (pose.leftShoulder && pose.rightShoulder) {
     pose.neck = {
       x: (pose.leftShoulder.x + pose.rightShoulder.x) / 2,
@@ -142,7 +169,10 @@ function loadLandmarker() {
     const make = (delegate) => vision.PoseLandmarker.createFromOptions(fileset, {
       baseOptions: { modelAssetPath: MODEL_URL, delegate },
       runningMode: "VIDEO",
-      numPoses: 1
+      numPoses: 1,
+      minPoseDetectionConfidence: 0.6,
+      minPosePresenceConfidence: 0.6,
+      minTrackingConfidence: 0.6
     });
     try { return await make("GPU"); } catch (_) { return await make("CPU"); }
   })();
@@ -202,7 +232,8 @@ class Demo {
     });
     document.addEventListener("keydown", this.onKey);
     loadLandmarker().catch(() => {}); // warm up while the user reads Home
-    this.showHome();
+    track("start", { goal: this.goal });
+    this.showBreak();
     root.querySelector(".frd-close").focus();
   }
 
@@ -231,75 +262,11 @@ class Demo {
     this.toastTimer = setTimeout(() => this.toastEl.classList.remove("is-on"), 2400);
   }
 
-  // ----- Home (HomeView.swift) -----
-  showHome() {
-    const el = this.setScreen("home", `
-      <div class="frd-screen frd-home">
-        <h2 class="frd-hero">Focus.<br>Then <span class="frd-accent">push-ups.</span></h2>
-        <p class="frd-sub">Trade the scroll for push-ups.<br>Camera counts, you train.</p>
-        <div class="frd-spacer"></div>
-        <p class="frd-section">New focus rep</p>
-        <div class="frd-card">
-          ${this.row("Focus", ICON.clock, "25", "m", true)}
-          ${this.row("Break", ICON.pause, "5", "m", true)}
-          ${this.row("Push-ups", ICON.number, String(this.goal), "", false)}
-        </div>
-        <div class="frd-chips">
-          <button type="button" class="frd-chip" data-preset="0">25 / 5 / 10</button>
-          <button type="button" class="frd-chip" data-preset="1">${ICON.lock}50 / 10 / 20</button>
-          <button type="button" class="frd-chip" data-preset="2">${ICON.lock}15 / 5 / 5</button>
-        </div>
-        <div class="frd-spacer"></div>
-        <div class="frd-stats">
-          <div class="frd-stat"><b>0</b><span>focus reps today</span></div>
-          <div class="frd-stat"><b>0</b><span>push-ups today</span></div>
-          <div class="frd-stat"><b>0</b><span>breaks<br>today</span></div>
-        </div>
-        <p class="frd-hint">Demo skips the 25 minute focus. Straight to the push-ups.</p>
-        <button type="button" class="frd-cta" data-act="start">Start push-ups</button>
-      </div>`);
-    const valEl = el.querySelector('[data-row="Push-ups"] .frd-val');
-    const chips = el.querySelectorAll(".frd-chip");
-    const refresh = () => {
-      valEl.textContent = String(this.goal);
-      chips[0].classList.toggle("is-active", this.goal === 10);
-    };
-    refresh();
-    el.addEventListener("click", (e) => {
-      const b = e.target.closest("button");
-      if (!b) return;
-      if (b.dataset.act === "start") { track("start", { goal: this.goal }); this.showBreak(); return; }
-      if (b.dataset.locked) { this.toast("Custom focus and break lengths are in the app."); return; }
-      if (b.dataset.step) {
-        this.goal = Math.min(30, Math.max(1, this.goal + Number(b.dataset.step)));
-        refresh();
-        return;
-      }
-      if (b.dataset.preset === "0") { this.goal = 10; refresh(); return; }
-      if (b.dataset.preset) this.toast("More presets are in the app.");
-    });
-  }
-
-  row(title, icon, value, unit, locked) {
-    const l = locked ? ' data-locked="1"' : "";
-    return `
-      <div class="frd-row" data-row="${title}">
-        <div class="frd-row-l">
-          <div class="frd-ico">${icon}</div>
-          <div class="frd-row-title">${title}${locked ? `<span class="frd-lock-ico">${ICON.lock}</span>` : ""}</div>
-        </div>
-        <div class="frd-stepper${locked ? " is-locked" : ""}">
-          <button type="button" aria-label="Less ${title}" data-step="-1"${l}>&minus;</button>
-          <span class="frd-val">${value}${unit ? `<small>${unit}</small>` : ""}</span>
-          <button type="button" aria-label="More ${title}" data-step="1"${l}>+</button>
-        </div>
-      </div>`;
-  }
-
-  // ----- Break (BreakView.swift) -----
+  // ----- Break (BreakView.swift). The demo opens straight here. -----
   showBreak() {
     this.stopBreak();
     this.counter.reset();
+    resetSmoothing();
     this.breakLeft = BREAK_SECONDS;
     this.finished = false;
     const el = this.setScreen("break", `
@@ -348,7 +315,7 @@ class Demo {
       const act = b.dataset.act;
       if (act === "gotit") this.els.setup.hidden = true;
       else if (act === "skip") { track("skip", { reps: this.counter.repCount }); this.stopBreak(); this.showResult(this.counter.repCount); }
-      else if (act === "end") { track("end_session", { reps: this.counter.repCount }); this.stopBreak(); this.showHome(); }
+      else if (act === "end") { track("end_session", { reps: this.counter.repCount }); this.close(); }
       else if (act === "retry") { this.showBreak(); }
     });
     this.timer = setInterval(() => {
@@ -487,11 +454,11 @@ class Demo {
     box.hidden = false;
   }
 
-  stopBreak() {
+  stopBreak(keepSpeech) {
     this.camToken = (this.camToken || 0) + 1;
     cancelAnimationFrame(this.raf);
     clearInterval(this.timer);
-    stopSpeech();
+    if (!keepSpeech) stopSpeech();
     if (this.stream) { this.stream.getTracks().forEach((t) => t.stop()); this.stream = null; }
   }
 
@@ -499,17 +466,23 @@ class Demo {
   finish() {
     this.finished = true;
     const reps = this.counter.repCount;
-    this.stopBreak();
+    // Keep speech alive so the last rep number is spoken, and let the final count
+    // sit on screen for a moment before the celebration covers it.
+    this.stopBreak(true);
     track("complete", { reps, goal: this.goal });
-    setTimeout(() => speak("Well done!", 1.0), 400);
-    const layer = document.createElement("div");
-    layer.className = "frd-celebrate";
-    layer.innerHTML = "<h2>WELL DONE!</h2>";
-    this.phone.appendChild(layer);
-    this.spawnConfetti(layer);
-    this.celebrateTimers.push(setTimeout(() => this.spawnConfetti(layer), 1800));
-    this.celebrateTimers.push(setTimeout(() => { layer.style.opacity = "0"; }, 3800));
-    this.celebrateTimers.push(setTimeout(() => this.showResult(reps), 4400));
+    const delay = 900;
+    this.celebrateTimers.push(setTimeout(() => {
+      if (!this.root || this.screen !== "break") return;
+      speak("Well done!", 1.0);
+      const layer = document.createElement("div");
+      layer.className = "frd-celebrate";
+      layer.innerHTML = "<h2>WELL DONE!</h2>";
+      this.phone.appendChild(layer);
+      this.spawnConfetti(layer);
+      this.celebrateTimers.push(setTimeout(() => this.spawnConfetti(layer), 1800));
+      this.celebrateTimers.push(setTimeout(() => { layer.style.opacity = "0"; }, 3800));
+      this.celebrateTimers.push(setTimeout(() => this.showResult(reps), 4400));
+    }, delay));
   }
 
   spawnConfetti(layer) {
@@ -546,13 +519,13 @@ class Demo {
           : "Prop the camera so it sees your whole body in plank, then try again. Or get the app and let your iPhone count."}</p>
         <a class="frd-cta" href="${APPSTORE_URL}" data-store="result">Get the App</a>
         <button type="button" class="frd-cta is-secondary" data-act="again">Do another set</button>
-        <button type="button" class="frd-link" data-act="home">Back to start</button>
+        <button type="button" class="frd-link" data-act="close">Close</button>
       </div>`);
     el.addEventListener("click", (e) => {
       const b = e.target.closest("button");
       if (!b) return;
       if (b.dataset.act === "again") { track("again"); this.showBreak(); }
-      if (b.dataset.act === "home") this.showHome();
+      if (b.dataset.act === "close") this.close();
     });
   }
 }
@@ -568,7 +541,6 @@ document.addEventListener("click", (e) => {
 const demoParam = new URLSearchParams(location.search).get("demo");
 if (demoParam !== null) {
   demo.open("url");
-  if (demoParam === "break") demo.showBreak();
   if (demoParam === "result") demo.showResult(5);
 }
 window.FocusRepsDemo = demo;
