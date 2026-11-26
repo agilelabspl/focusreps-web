@@ -994,6 +994,8 @@ details p {
   color: var(--ink-2);
   padding: 6px 0 6px 20px; position: relative;
 }
+.tool-tips a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.tool-tips a:hover { color: var(--orange-dark); }
 .tool-tips li::before {
   content: "·"; position: absolute; left: 4px;
   color: var(--orange); font-weight: 700;
