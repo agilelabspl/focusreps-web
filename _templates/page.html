@@ -1,0 +1,185 @@
+<!doctype html>
+<!--
+  FocusReps page template. Not published (Jekyll skips folders starting with "_").
+
+  HOW TO ADD A NEW PAGE
+  1. Copy this file to /blog/<slug>/index.html or /tools/<slug>/index.html.
+     Slug: lowercase, words joined with "-", the search phrase itself (e.g. desk-exercises-for-remote-workers).
+  2. Replace every {{PLACEHOLDER}}:
+     {{TITLE}}        55 to 65 chars, main phrase first, ends with " · FocusReps"
+     {{DESCRIPTION}}  120 to 155 chars, says what the reader gets
+     {{URL}}          full canonical URL with trailing slash, e.g. https://focusreps.app/blog/<slug>/
+     {{SECTION}}      Blog or Free tools (eyebrow); breadcrumb level 2 is /blog/ for posts, omit it for tools
+     {{NAME}}         short page name for breadcrumbs
+     {{H1}}           one H1 per page, close to the search phrase
+     {{DATE}}         YYYY-MM-DD (datePublished and dateModified)
+  3. Blog post: keep the Article schema. Tool page: delete the Article block.
+     Add a FAQPage block only if the page shows the same questions and answers.
+  4. Internal links (required):
+     - this page links to 2 or 3 related pages in the text and in "Read next"
+     - add a link TO this page from 2 existing pages (article text, tool "Read next", blog list, footer)
+     - blog post: add an entry to /blog/index.html list
+  5. Add the URL to /sitemap.xml with <lastmod>.
+  6. After push: run  _scripts/indexnow.sh <URL>  and request indexing in Google Search Console.
+  7. Copy rules: no dashes as separators in visible text. No claims that the app does not support
+     (no HealthKit, no streaks; video never leaves the phone, but Game Center scores do).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="theme-color" content="#f8f7f3" />
+<title>{{TITLE}}</title>
+<meta name="description" content="{{DESCRIPTION}}" />
+<link rel="canonical" href="{{URL}}" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="FocusReps" />
+<meta property="og:title" content="{{TITLE}}" />
+<meta property="og:description" content="{{DESCRIPTION}}" />
+<meta property="og:url" content="{{URL}}" />
+<meta property="og:image" content="https://focusreps.app/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://focusreps.app/og.png" />
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<meta name="apple-itunes-app" content="app-id=6827547307" />
+
+<link rel="stylesheet" href="/styles.css" />
+<script src="/analytics.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "FocusReps", "item": "https://focusreps.app/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://focusreps.app/blog/" },
+    { "@type": "ListItem", "position": 3, "name": "{{NAME}}", "item": "{{URL}}" }
+  ]
+}
+</script>
+
+<!-- Blog posts only. Delete for tool pages. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{H1}}",
+  "description": "{{DESCRIPTION}}",
+  "image": "https://focusreps.app/og.png",
+  "datePublished": "{{DATE}}",
+  "dateModified": "{{DATE}}",
+  "author": { "@type": "Person", "name": "Pawel Lewinski" },
+  "publisher": { "@type": "Organization", "name": "FocusReps", "logo": { "@type": "ImageObject", "url": "https://focusreps.app/apple-touch-icon.png" } },
+  "mainEntityOfPage": "{{URL}}"
+}
+</script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <nav class="nav" aria-label="Primary">
+    <a class="brand" href="/" aria-label="FocusReps home">
+      <img class="brand-icon" src="/icon-96.webp" alt="" width="36" height="36" />
+      <span class="brand-name">FocusReps</span>
+    </a>
+    <ul class="nav-list">
+      <li><a href="/#how">How it works</a></li>
+      <li><a href="/#tools">Free Tools</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+    </ul>
+    <a class="nav-cta" href="https://apps.apple.com/us/app/focus-push-up-set-focusreps/id6827547307?ppid=c766ab44-a775-4fb3-ad46-c6d85a74fd3a">Get the App</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="page-head">
+    <div class="page-head-inner">
+      <p class="eyebrow">{{SECTION}}</p>
+      <h1>{{H1}}</h1>
+      <p>{{INTRO: one or two sentences that answer the search question right away}}</p>
+    </div>
+  </section>
+
+  <article class="article">
+    <div class="article-inner">
+
+      <h2>{{SECTION HEADING}}</h2>
+      <p>{{BODY}} Link 2 or 3 related pages inside the text, e.g. <a href="/tools/adhd-focus-planner/">ADHD focus planner</a>.</p>
+
+      <aside class="cta-card">
+        <h3>{{CTA HEADING}}</h3>
+        <p>{{CTA TEXT: one link between this topic and FocusReps}}</p>
+        <a class="btn" href="https://apps.apple.com/us/app/focus-push-up-set-focusreps/id6827547307?ppid=c766ab44-a775-4fb3-ad46-c6d85a74fd3a">Get the App →</a>
+      </aside>
+
+      <aside class="tool-tips">
+        <h3>Read next</h3>
+        <ul>
+          <li><a href="/blog/pomodoro-for-adhd/">Pomodoro for ADHD: what actually works (and what doesn't)</a></li>
+          <li><a href="/tools/30-day-pushup-challenge/">30 day push-up challenge</a></li>
+          <li><a href="/#science">The science behind FocusReps</a></li>
+        </ul>
+      </aside>
+
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-cols">
+    <nav aria-labelledby="ft-try">
+      <h3 id="ft-try">Try it free</h3>
+      <ul>
+        <li><a href="/?demo">Push-up counter in your browser</a></li>
+        <li><a href="/#how">How it works</a></li>
+        <li><a href="/#showcase">Inside the app</a></li>
+        <li><a href="/#science">The science behind FocusReps</a></li>
+        <li><a href="/#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="ft-tools">
+      <h3 id="ft-tools">Free tools</h3>
+      <ul>
+        <li><a href="/tools/adhd-focus-planner/">ADHD focus planner</a></li>
+        <li><a href="/tools/30-day-pushup-challenge/">30 day push-up challenge</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="ft-blog">
+      <h3 id="ft-blog">Guides</h3>
+      <ul>
+        <li><a href="/blog/pomodoro-for-adhd/">Focus timers for ADHD</a></li>
+        <li><a href="/blog/">All posts →</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="ft-app">
+      <h3 id="ft-app">FocusReps</h3>
+      <ul>
+        <li><a href="https://apps.apple.com/us/app/focus-push-up-set-focusreps/id6827547307?ppid=c766ab44-a775-4fb3-ad46-c6d85a74fd3a">Get the iPhone app</a></li>
+        <li><a href="https://agilelabs.pl/apps/privacy_policy" rel="noopener">Privacy Policy</a></li>
+        <li><a href="https://app.notion.com/p/Terms-of-Use-3d0d6cc99d12804f85a2ca20c78243a8" rel="noopener">Terms of Use</a></li>
+        <li><button type="button" class="footer-linkbtn" data-cookie-settings>Cookie settings</button></li>
+        <li class="footer-contact">Contact: pomoc<span class="at" aria-label="at"></span>agilelabs.pl</li>
+      </ul>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <a class="brand" href="/" aria-label="FocusReps home">
+      <img class="brand-icon" src="/icon-96.webp" alt="" width="28" height="28" style="width:28px;height:28px" />
+      <span class="brand-name">FocusReps</span>
+    </a>
+    <p class="copy">© 2026 FocusReps. All rights reserved.</p>
+  </div>
+  <p class="footer-legal">Apple, the Apple logo, iPhone, App Store and Game Center are trademarks of Apple Inc., registered in the U.S. and other countries. FocusReps is not affiliated with Apple Inc.</p>
+</footer>
+
+</body>
+</html>
