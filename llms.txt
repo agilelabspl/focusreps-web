@@ -1,0 +1,28 @@
+# FocusReps
+
+> FocusReps is an iPhone focus timer that turns every break into push-ups. You work in a focus session (default 25 minutes), then the iPhone camera counts your push-ups during the break (default 10 reps). Pose detection runs on-device. No account, no video stored, nothing leaves the phone. Requires iOS 17.0 or later.
+
+Key facts:
+- Platform: iPhone, App Store: https://apps.apple.com/us/app/focus-push-up-set-focusreps/id6827547307
+- Camera rep counter: on-device pose detection, a rep counts only when shoulders drop well below plank height and come back up
+- Deep Focus: blocks distracting apps during a focus session
+- Stats: weekly push-ups and focus time, Home Screen widget, Game Center leaderboard
+- HealthKit sync: optional, off by default
+- Privacy: no account, no login, no video stored or uploaded
+- Exercises: push-ups in the current version
+- Browser demo: https://focusreps.app/?demo
+
+## Pages
+
+- [Home](https://focusreps.app/): what FocusReps is, how it works, FAQ
+- [Blog](https://focusreps.app/blog/): focus, movement, ADHD and exercise snacks for desk workers
+- [Pomodoro for ADHD](https://focusreps.app/blog/pomodoro-for-adhd/): how to adapt the 25/5 rule for an ADHD brain
+
+## Free tools
+
+- [ADHD focus planner](https://focusreps.app/tools/adhd-focus-planner/): one-page printable PDF, no email
+- [30 day push-up challenge](https://focusreps.app/tools/30-day-pushup-challenge/): one-page printable PDF, 10 to 50 reps, no email
+
+## Legal
+
+- [Privacy Policy](https://agilelabs.pl/apps/privacy_policy)

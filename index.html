@@ -26,8 +26,9 @@
 <meta name="twitter:description" content="25 min work. 10 push-ups. Your camera counts." />
 <meta name="twitter:image" content="https://focusreps.app/og.png" />
 
-<link rel="icon" type="image/png" href="app-icon.png" />
-<link rel="apple-touch-icon" href="app-icon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="apple-itunes-app" content="app-id=6827547307" />
 
 
 <link rel="stylesheet" href="styles.css" />
@@ -56,7 +57,7 @@ try { if (localStorage.getItem('fr.consent') === 'yes') frLoadAnalytics(); } cat
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "FocusReps",
-  "operatingSystem": "iOS 17",
+  "operatingSystem": "iOS 17.0 or later",
   "applicationCategory": "ProductivityApplication",
   "applicationSubCategory": "HealthApplication",
   "description": "Focus timer with a camera-based push-up counter. Work in focused blocks, move in the breaks.",
@@ -66,7 +67,15 @@ try { if (localStorage.getItem('fr.consent') === 'yes') frLoadAnalytics(); } cat
     "priceCurrency": "USD"
   },
   "url": "https://focusreps.app/",
-  "image": "https://focusreps.app/og.png"
+  "downloadUrl": "https://apps.apple.com/us/app/focus-push-up-set-focusreps/id6827547307",
+  "installUrl": "https://apps.apple.com/us/app/focus-push-up-set-focusreps/id6827547307",
+  "image": "https://focusreps.app/og.png",
+  "screenshot": [
+    "https://focusreps.app/screens/focus.webp",
+    "https://focusreps.app/screens/pushups.webp",
+    "https://focusreps.app/screens/stats.webp"
+  ],
+  "publisher": { "@type": "Organization", "name": "FocusReps", "url": "https://focusreps.app/" }
 }
 </script>
 
@@ -76,8 +85,20 @@ try { if (localStorage.getItem('fr.consent') === 'yes') frLoadAnalytics(); } cat
   "@type": "Organization",
   "name": "FocusReps",
   "url": "https://focusreps.app/",
-  "logo": "https://focusreps.app/og.png",
-  "sameAs": []
+  "logo": "https://focusreps.app/apple-touch-icon.png",
+  "sameAs": [
+    "https://apps.apple.com/us/app/focus-push-up-set-focusreps/id6827547307",
+    "https://www.producthunt.com/products/focusreps"
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "FocusReps",
+  "url": "https://focusreps.app/"
 }
 </script>
 
@@ -144,14 +165,14 @@ try { if (localStorage.getItem('fr.consent') === 'yes') frLoadAnalytics(); } cat
 
 <header class="site-header">
   <nav class="nav" aria-label="Primary">
-    <a class="brand" href="index.html" aria-label="FocusReps home">
-      <img class="brand-icon" src="app-icon.png" alt="" width="36" height="36" />
+    <a class="brand" href="/" aria-label="FocusReps home">
+      <img class="brand-icon" src="/icon-96.webp" alt="" width="36" height="36" />
       <span class="brand-name">FocusReps</span>
     </a>
     <ul class="nav-list">
       <li><a href="#how">How it works</a></li>
       <li><a href="#tools">Free Tools</a></li>
-      <li><a href="blog/index.html">Blog</a></li>
+      <li><a href="/blog/">Blog</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
     <a class="nav-cta" href="https://apps.apple.com/us/app/focus-push-up-set-focusreps/id6827547307?ppid=c766ab44-a775-4fb3-ad46-c6d85a74fd3a">Get the App</a>
@@ -177,7 +198,7 @@ try { if (localStorage.getItem('fr.consent') === 'yes') frLoadAnalytics(); } cat
 
       <div class="phone-visual" aria-hidden="true">
         <div class="phone-frame">
-          <video class="phone-video" autoplay muted loop playsinline preload="auto" poster="app-screen-lockin.png">
+          <video class="phone-video" autoplay muted loop playsinline preload="metadata" poster="poster.webp">
             <source src="app-video-2.mp4" type="video/mp4" />
           </video>
         </div>
@@ -373,13 +394,13 @@ try { if (localStorage.getItem('fr.consent') === 'yes') frLoadAnalytics(); } cat
       <h2 id="tools-teaser-title"><em>Free</em> materials to help your focus and your reps.</h2>
     </header>
     <div class="tools-grid">
-      <a class="tool-card" href="tools/adhd-focus-planner/index.html">
+      <a class="tool-card" href="/tools/adhd-focus-planner/">
         <span class="tool-tag">01 · Printable PDF</span>
         <h3>ADHD focus planner</h3>
         <p>One page. Four focus sessions. A distraction log that stops you from losing the thread at minute 7. Free PDF, no email.</p>
         <span class="tool-cta">Download →</span>
       </a>
-      <a class="tool-card" href="tools/30-day-pushup-challenge/index.html">
+      <a class="tool-card" href="/tools/30-day-pushup-challenge/">
         <span class="tool-tag">02 · Printable PDF</span>
         <h3>30 day pushup challenge grid</h3>
         <p>One page. Thirty days. Start at 10 reps, finish at 50. Break the daily count into your work breaks. Print one, print ten. Free PDF, no email.</p>
@@ -527,25 +548,25 @@ try { if (localStorage.getItem('fr.consent') === 'yes') frLoadAnalytics(); } cat
     <nav aria-labelledby="ft-try">
       <h3 id="ft-try">Try it free</h3>
       <ul>
-        <li><a href="index.html?demo">Push-up counter in your browser</a></li>
-        <li><a href="index.html#how">How it works</a></li>
-        <li><a href="index.html#showcase">Inside the app</a></li>
-        <li><a href="index.html#science">The science behind FocusReps</a></li>
-        <li><a href="index.html#faq">FAQ</a></li>
+        <li><a href="/?demo">Push-up counter in your browser</a></li>
+        <li><a href="/#how">How it works</a></li>
+        <li><a href="/#showcase">Inside the app</a></li>
+        <li><a href="/#science">The science behind FocusReps</a></li>
+        <li><a href="/#faq">FAQ</a></li>
       </ul>
     </nav>
     <nav aria-labelledby="ft-tools">
       <h3 id="ft-tools">Free tools</h3>
       <ul>
-        <li><a href="tools/adhd-focus-planner/index.html">ADHD focus planner</a></li>
-        <li><a href="tools/30-day-pushup-challenge/index.html">30 day push-up challenge</a></li>
+        <li><a href="/tools/adhd-focus-planner/">ADHD focus planner</a></li>
+        <li><a href="/tools/30-day-pushup-challenge/">30 day push-up challenge</a></li>
       </ul>
     </nav>
     <nav aria-labelledby="ft-blog">
       <h3 id="ft-blog">Guides</h3>
       <ul>
-        <li><a href="blog/pomodoro-for-adhd/index.html">Focus timers for ADHD</a></li>
-        <li><a href="blog/index.html">All posts →</a></li>
+        <li><a href="/blog/pomodoro-for-adhd/">Focus timers for ADHD</a></li>
+        <li><a href="/blog/">All posts →</a></li>
       </ul>
     </nav>
     <nav aria-labelledby="ft-app">
@@ -560,60 +581,14 @@ try { if (localStorage.getItem('fr.consent') === 'yes') frLoadAnalytics(); } cat
     </nav>
   </div>
   <div class="footer-bottom">
-    <a class="brand" href="index.html" aria-label="FocusReps home">
-      <img class="brand-icon" src="app-icon.png" alt="" width="28" height="28" style="width:28px;height:28px" />
+    <a class="brand" href="/" aria-label="FocusReps home">
+      <img class="brand-icon" src="/icon-96.webp" alt="" width="28" height="28" style="width:28px;height:28px" />
       <span class="brand-name">FocusReps</span>
     </a>
     <p class="copy">© 2026 FocusReps. All rights reserved.</p>
   </div>
   <p class="footer-legal">Apple, the Apple logo, iPhone, App Store and Game Center are trademarks of Apple Inc., registered in the U.S. and other countries. FocusReps is not affiliated with Apple Inc. All other product names, logos and brands shown are property of their respective owners.</p>
 </footer>
-
-<script>
-(function () {
-  var FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSe_aKbn0mp4SOPrQbG-kjA4OW1ZfELICnvFQA2vUutSlAQRjQ/formResponse";
-  var ENTRY_EMAIL = "entry.155826540";
-  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  function handle(form) {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var status = form.querySelector(".wl-status");
-      var button = form.querySelector("button[type=submit]");
-      var emailInput = form.querySelector("input[name=email]");
-      var email = emailInput ? emailInput.value.trim() : "";
-
-      status.classList.remove("is-ok", "is-err");
-
-      if (!EMAIL_RE.test(email)) { status.textContent = "Please enter a valid email."; status.classList.add("is-err"); return; }
-
-      button.disabled = true;
-      status.textContent = "Sending…";
-
-      var data = new FormData();
-      data.append(ENTRY_EMAIL, email);
-
-      fetch(FORM_ACTION, { method: "POST", mode: "no-cors", body: data })
-        .then(function () {
-          form.reset();
-          status.textContent = "Thanks. You're on the list.";
-          status.classList.add("is-ok");
-          button.disabled = false;
-          if (window.posthog) {
-            window.posthog.capture('web.focusreps.waitlist_submit', { form_id: form.id || null });
-          }
-        })
-        .catch(function () {
-          status.textContent = "Something went wrong. Please try again.";
-          status.classList.add("is-err");
-          button.disabled = false;
-        });
-    });
-  }
-
-  document.querySelectorAll("form[data-waitlist]").forEach(handle);
-})();
-</script>
 
 
 

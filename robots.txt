@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /demo/
+Disallow: /tools/*/_sheet.html
+
+Sitemap: https://focusreps.app/sitemap.xml
