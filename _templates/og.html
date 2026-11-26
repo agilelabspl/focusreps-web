@@ -1,0 +1,100 @@
+<!doctype html>
+<!--
+  OG image generator (1200x630). Not published.
+  Render one variant with Chrome headless from the web/ folder served on localhost:
+    python3 -m http.server 8765
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --hide-scrollbars \
+      --window-size=1200,630 --screenshot=og-<name>.png "http://localhost:8765/_templates/og.html?v=<name>"
+  Variants: article, planner, challenge. Add a new one in VARIANTS below.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="/styles.css" />
+<style>
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: var(--cream); }
+  .og { display: grid; grid-template-columns: 1fr 440px; gap: 40px; align-items: center;
+        width: 1200px; height: 630px; padding: 0 70px; box-sizing: border-box; }
+  .og-brand { display: flex; align-items: center; gap: 14px; margin-bottom: 34px; }
+  .og-brand img { width: 48px; height: 48px; border-radius: 11px; }
+  .og-brand span { font-weight: 700; font-size: 22px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink); }
+  .og-eyebrow { font-size: 18px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange-dark); margin: 0 0 18px; }
+  .og-title { font-size: 76px; line-height: 0.95; font-weight: 800; letter-spacing: -0.035em; text-transform: uppercase; color: var(--ink); margin: 0 0 28px; }
+  .og-title em { font-style: normal; color: var(--orange); }
+  .og-sub { font-size: 24px; line-height: 1.4; color: var(--ink-2); margin: 0; max-width: 560px; text-wrap: balance; }
+  .og-visual.v-planner .pdf-preview { transform: scale(1.6); }
+  .og-visual { display: flex; justify-content: center; }
+  .og-visual .pdf-preview { margin: 0; transform: scale(1.12); transform-origin: center; }
+  .og-phone { width: 270px; border: 12px solid #111; border-radius: 44px; overflow: hidden; background: #fff;
+              box-shadow: 0 30px 60px rgba(0,0,0,0.12); }
+  .og-phone img { display: block; width: 100%; height: auto; }
+</style>
+</head>
+<body>
+<div class="og">
+  <div>
+    <div class="og-brand"><img src="/apple-touch-icon.png" alt="" /><span>FocusReps</span></div>
+    <p class="og-eyebrow" id="eyebrow"></p>
+    <h1 class="og-title" id="title"></h1>
+    <p class="og-sub" id="sub"></p>
+  </div>
+  <div class="og-visual" id="visual"></div>
+</div>
+
+<template id="tpl-planner">
+  <div class="pdf-preview" aria-hidden="true">
+    <div class="pdf-preview-page">
+      <div class="pp-title">Focus Planner</div>
+      <div class="pp-sub">ADHD · Focus Reps</div>
+      <div class="pp-section-head">Today's task</div>
+      <span class="pp-line"></span>
+      <div class="pp-section-head">Focus sessions</div>
+      <div class="pp-grid">
+        <div class="pp-cell on"></div><div class="pp-cell on"></div><div class="pp-cell"></div><div class="pp-cell"></div><div class="pp-cell"></div>
+      </div>
+      <div class="pp-section-head">Distraction log</div>
+      <span class="pp-line"></span><span class="pp-line"></span><span class="pp-line"></span>
+      <div class="pp-section-head">Reflection</div>
+      <span class="pp-line"></span><span class="pp-line"></span>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-challenge">
+  <div class="pdf-preview" aria-hidden="true">
+    <div class="pdf-preview-page">
+      <div class="pp-title">30 Day Pushup Challenge</div>
+      <div class="pp-sub">Focus Reps · 6 waves · final test day 30</div>
+      <div class="pp-section-head">Daily grid</div>
+      <div class="pp-grid-30">
+        <div class="pp-cell">10</div><div class="pp-cell">12</div><div class="pp-cell">15</div><div class="pp-cell rest">R</div><div class="pp-cell">15</div>
+        <div class="pp-cell">18</div><div class="pp-cell">20</div><div class="pp-cell rest">R</div><div class="pp-cell">20</div><div class="pp-cell">23</div>
+        <div class="pp-cell">25</div><div class="pp-cell rest">R</div><div class="pp-cell">25</div><div class="pp-cell">28</div><div class="pp-cell">30</div>
+        <div class="pp-cell rest">R</div><div class="pp-cell">30</div><div class="pp-cell">33</div><div class="pp-cell">35</div><div class="pp-cell rest">R</div>
+        <div class="pp-cell">35</div><div class="pp-cell">38</div><div class="pp-cell">40</div><div class="pp-cell rest">R</div><div class="pp-cell">40</div>
+        <div class="pp-cell">43</div><div class="pp-cell">45</div><div class="pp-cell rest">R</div><div class="pp-cell">45</div><div class="pp-cell final">50</div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-article">
+  <div class="og-phone"><img src="/screens/focus.webp" alt="" /></div>
+</template>
+
+<script>
+var VARIANTS = {
+  article:   { eyebrow: "Guide",                    title: "Pomodoro <em>for ADHD</em>",   sub: "What actually works, what breaks, and how to adapt the 25/5 rule so it sticks." },
+  planner:   { eyebrow: "Free printable PDF",       title: "ADHD focus <em>planner</em>",  sub: "One page. Four focus sessions. A distraction log. No email." },
+  challenge: { eyebrow: "Free printable PDF",       title: "30 day <em>push&#8209;up</em><br>challenge", sub: "Start at 10 reps, finish at 50. Fit the daily count into your work breaks." }
+};
+var v = new URLSearchParams(location.search).get("v") || "article";
+var d = VARIANTS[v];
+document.getElementById("eyebrow").textContent = d.eyebrow;
+document.getElementById("title").innerHTML = d.title;
+document.getElementById("sub").textContent = d.sub;
+document.getElementById("visual").classList.add("v-" + v);
+document.getElementById("visual").appendChild(document.getElementById("tpl-" + v).content.cloneNode(true));
+</script>
+</body>
+</html>
