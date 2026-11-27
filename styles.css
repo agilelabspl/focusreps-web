@@ -113,6 +113,22 @@ a { color: inherit; text-decoration: none; }
 .appstore-badge:hover { opacity: 0.82; }
 .appstore-badge:active { transform: translateY(1px); }
 
+.store-pair {
+  display: inline-flex; align-items: center; gap: 14px; flex: 0 0 auto;
+}
+.appstore-qr {
+  display: inline-flex; flex: 0 0 auto;
+  width: 96px; height: 96px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  line-height: 0;
+  transition: opacity .15s ease, transform .1s ease;
+}
+.appstore-qr img { width: 100%; height: 100%; display: block; }
+.appstore-qr:hover { opacity: 0.82; }
+.appstore-qr:active { transform: translateY(1px); }
+
 .cta-micro {
   font-family: var(--mono); font-size: 11px; color: var(--ink-3);
   text-transform: uppercase; letter-spacing: 0.12em;
@@ -1201,6 +1217,8 @@ details p {
   .cta-row { flex-direction: column; align-items: stretch; }
   .btn, .appstore-badge { width: 100%; }
   .appstore-badge { justify-content: center; }
+  .store-pair { align-self: flex-start; }
+  .store-pair .appstore-badge { width: auto; }
   .waitlist { flex-direction: column; }
   .waitlist .wl-field { flex: 1 1 auto; }
   .waitlist button { width: 100%; }
