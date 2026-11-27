@@ -1,6 +1,6 @@
 # FocusReps
 
-> FocusReps is an iPhone focus timer that turns every break into push-ups. You work in a focus session (default 25 minutes), then the iPhone camera counts your push-ups during the break (default 10 reps). Pose detection runs on-device. No account, no video stored, nothing leaves the phone. Requires iOS 17.0 or later.
+> FocusReps is an iPhone focus timer. Focus session and push-ups in breaks supported by your phone camera. You work in a focus session (default 25 minutes), then the camera counts your push-ups during the break (default 10 reps). Pose detection runs on-device. No account, no video stored, nothing leaves the phone. Requires iOS 17.0 or later. Deep Focus locks distracting apps for the session, like an app blocker.
 
 Key facts:
 - Platform: iPhone, App Store: https://apps.apple.com/us/app/focus-push-up-set-focusreps/id6827547307
